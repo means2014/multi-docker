@@ -1,0 +1,20 @@
+sudo: required
+services:
+    - docker
+    
+before_install:
+    - docker build -t means2014/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true means2014/react-test npm test
+    
+after_success:
+    - docker build -t means2014/multi-client ./client
+    - docker build -t means2014/multi-nginx ./nginx
+    - docker build -t means2014/multi-server ./server
+    - docker build -t means2014/multi-worker ./worker
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push -t means2014/multi-client
+    - docker push -t means2014/multi-nginx
+    - docker push -t means2014/multi-server
+    - docker push -t means2014/multi-worker
