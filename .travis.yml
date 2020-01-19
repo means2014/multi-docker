@@ -14,7 +14,7 @@ after_success:
     - docker build -t means2014/multi-server ./server
     - docker build -t means2014/multi-worker ./worker
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-    - docker push -t means2014/multi-client
-    - docker push -t means2014/multi-nginx
-    - docker push -t means2014/multi-server
-    - docker push -t means2014/multi-worker
+    - docker push means2014/multi-client
+    - docker push means2014/multi-nginx
+    - docker push means2014/multi-server
+    - docker push means2014/multi-worker
